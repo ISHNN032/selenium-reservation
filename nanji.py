@@ -17,10 +17,10 @@ itemName2 = "/html/body/div[1]/div[3]/div[2]/div/div[3]/ul/li[6]/a/div[2]/h4"
 nameScribt = "document.querySelector(\"#contents > div:nth-child(10) > ul > li:nth-child(6) > a\").onclick.toString().match(/\'S[0-9]*/g).toString().substring(1)"
 
 paths = {
-    'a': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230113103349010248",
-    'b': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230113102501255093",
-    'c': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230113102231784134",
-    'd': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230113102017518171"
+    'a': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230211144124694015",
+    'b': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230211145025248959",
+    'c': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230211150020900809",
+    'd': "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S230211150852224390"
 }
 sample = "/html/body/div/div[3]/div[2]/div/form[2]/div[1]/div[1]/div[2]/div/table/tbody/tr[1]/td[7]/a/span[2]/div/span"
 
@@ -44,19 +44,21 @@ while(isFull):
         title = driver.execute_script("return Yjs.Gnb.jqObj.news[0].children[1].innerText;")
         print(title)
         result = "result: "
-        for i in range(1, 4):
+        for i in range(3, 5):
             path = "/html/body/div/div[3]/div[2]/div/form[2]/div[1]/div[1]/div[2]/div/table/tbody/tr[%d]/td[7]/a/span[2]/div/span"%i
-            result += driver.find_element(By.XPATH, path).text
+            count = driver.find_element(By.XPATH, path).text
+            result += " " + count
+            if(count != "24/24" and count != "19/19" and count != "13/13" and count != "26/26"):
+                isFull = False
         print(result)
 
-        isFull = True
         needRefresh = True
     except TimeoutException:
         print('Time Out')
     finally:
         if(isFull == True):
             randsleep = random.uniform(1.1, 5.0)
-            print("\t\t\tretry in .." + str(randsleep))
+            print("\tretry in .." + str(randsleep))
             time.sleep(randsleep)
             driver.refresh()
-print("the reservation is valied!")
+print("the reservation is avaliable!")
